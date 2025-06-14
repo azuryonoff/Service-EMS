@@ -1,4 +1,5 @@
-name: Launcher Build
+name: 🚀 Build & Release Service EMS
+
 on:
   push:
     branches: [ main ]
@@ -6,53 +7,71 @@ on:
       - 'v*'
 
 jobs:
-  create-release:
+  create-release-draft:
     runs-on: ubuntu-latest
+    outputs:
+      release_id: ${{ steps.create_release.outputs.id }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Get version
+      - name: 🏷️ Récupérer la version depuis package.json
+        id: get_version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: Create Release (draft)
+      - name: 🛠️ Créer une release GitHub en draft
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ env.version }}
-          release_name: release ${{ env.version }}
+          release_name: "Release ${{ env.version }}"
           draft: true
           prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
-  build-launcher:
-    needs: create-release
+  build-windows:
+    needs: create-release-draft
     runs-on: windows-latest
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up Node
+      - name: ⚙️ Setup Node.js 22.x
         uses: actions/setup-node@v3
         with:
-          node-version: 22.x
+          node-version: 22
 
-      - name: Set up Python
+      - name: 🐍 Setup Python 3.x
         uses: actions/setup-python@v4
         with:
           python-version: 3.x
 
-      - name: Install Updates
-        run: npm i
-        shell: bash
-
-      - name: Install Dependencies
+      - name: 📦 Installer les dépendances
         run: npm ci
         shell: bash
 
-      - name: Build
+      - name: 🏗️ Construire l’application Windows
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
         shell: bash
+
+      - name: 📤 Uploader les artefacts de build
+        uses: actions/upload-artifact@v3
+        with:
+          name: service-ems-windows-${{ env.version }}
+          path: dist/
+
+      - name: ✅ Publier la release (passer draft → published)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RELEASE_ID: ${{ needs.create-release-draft.outputs.release_id }}
+        run: |
+          echo "Publishing release ID $RELEASE_ID ..."
+          curl -X PATCH \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            https://api.github.com/repos/$REPO/releases/$RELEASE_ID \
+            -d '{"draft": false}'

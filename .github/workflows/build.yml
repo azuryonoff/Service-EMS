@@ -2,7 +2,7 @@ name: 🚀 Build & Release Service EMS (Windows only)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   create_release:

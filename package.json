@@ -1,6 +1,6 @@
 {
   "name": "service-ems",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Service EMS - Prise de service Discord",
   "main": "main.js",
   "scripts": {
@@ -38,17 +38,17 @@
     "electron-builder": "^26.0.12"
   },
   "dependencies": {
+    "electron-updater": "^6.6.2",
     "express": "^5.1.0",
     "moment-timezone": "^0.5.43",
     "node-fetch": "^2.7.0",
     "open": "^10.1.2"
   },
-
   "publish": [
-  {
-    "provider": "github",
-    "owner": "azuryonoff",
-    "repo": "Service-EMS"
-  }
-]
+    {
+      "provider": "github",
+      "owner": "azuryonoff",
+      "repo": "Service-EMS"
+    }
+  ]
 }

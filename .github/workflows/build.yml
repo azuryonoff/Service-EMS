@@ -20,10 +20,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ env.version }}
-          release_name: release ${{ env.version }}
-          draft: false
-          prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
+          tag: ${{ env.version }}
+          title: release ${{ env.version }}
+          prerelease: true
 
   build-launcher:
     needs: create-release

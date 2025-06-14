@@ -63,15 +63,19 @@ jobs:
           name: service-ems-windows-${{ env.version }}
           path: dist/
 
-      - name: ✅ Publier la release (passer draft → published)
+      - name: 🟢 Publier la release
+        if: steps.create_release.outputs.id != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          RELEASE_ID: ${{ needs.create-release-draft.outputs.release_id }}
+          RELEASE_ID: ${{ steps.create_release.outputs.id }}
         run: |
-          echo "Publishing release ID $RELEASE_ID ..."
-          curl -X PATCH \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            https://api.github.com/repos/$REPO/releases/$RELEASE_ID \
-            -d '{"draft": false}'
+          Write-Host "Publishing release ID $RELEASE_ID ..."
+          curl.exe `
+            -X PATCH `
+            -H "Accept: application/vnd.github+json" `
+            -H "Authorization: Bearer $env:GITHUB_TOKEN" `
+            -H "Content-Type: application/json" `
+            -d '{"draft":false}' `
+            "https://api.github.com/repos/${{ github.repository }}/releases/$RELEASE_ID"
+        shell: pwsh
+

@@ -1,50 +1,51 @@
-# module du helios launcher
 name: Launcher Build
 on:
   push:
     branches: [ main ]
+    tags:
+      - 'v*'
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Get version
         run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
-      
-      - name: Create Release
+
+      - name: Create Release (draft)
         id: create_release
-        uses: elgohr/Github-Release-Action@v5
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag: ${{ env.version }}
-          title: release ${{ env.version }}
-          prerelease: true
+          tag_name: ${{ env.version }}
+          release_name: release ${{ env.version }}
+          draft: true
+          prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
   build-launcher:
     needs: create-release
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [windows-latest]
-
+    runs-on: windows-latest
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 22.x
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: 3.x
+
+      - name: Install Updates
+        run: npm i
+        shell: bash
 
       - name: Install Dependencies
         run: npm ci
@@ -52,6 +53,6 @@ jobs:
 
       - name: Build
         env:
-          GH_TOKEN: ${{ secrets.github_token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
         shell: bash

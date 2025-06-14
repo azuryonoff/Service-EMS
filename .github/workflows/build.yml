@@ -1,0 +1,56 @@
+name: Build and Release Windows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: 🧾 Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 🔍 Read version from package.json
+        id: get_version
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: 📌 Create Git tag if not exists
+        run: |
+          $version = "${{ steps.get_version.outputs.version }}"
+          git fetch --tags
+          if (-not (git tag -l "v$version")) {
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git tag "v$version"
+            git push origin "v$version"
+          } else {
+            Write-Host "✅ Tag v$version already exists"
+          }
+
+      - name: ⚙️ Build app for Windows
+        run: npm run build
+
+      - name: 📤 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: v${{ steps.get_version.outputs.version }}
+          files: |
+            dist/*.exe
+            dist/*.nsis.7z
+            dist/*.portable.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

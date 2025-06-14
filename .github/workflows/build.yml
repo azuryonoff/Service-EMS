@@ -1,54 +1,53 @@
-name: 🛠️ Build & Release Windows
+name: 🚀 Build & Release Service EMS (Windows only)
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - '**'
+    branches: [ master ]
+
 jobs:
-  build_windows:
-    runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  create_release:
+    runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
+      - name: 📥 Checkout repo
         uses: actions/checkout@v3
 
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: 🔧 Install dependencies
-        run: npm install
-
-      - name: 🏗️ Build Windows executable
-        run: npm run build
-
       - name: 🏷️ Get version from package.json
-        id: get_version
-        run: |
-          echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
 
-      - name: 🏷️ Create Git tag
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag -a "v${{ steps.get_version.outputs.version }}" -m "Release v${{ steps.get_version.outputs.version }}"
-          git push origin "v${{ steps.get_version.outputs.version }}"
+      - name: 🏗️ Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 📦 Create GitHub Release & upload assets
-        uses: ncipollo/release-action@v1
         with:
-          tag: "v${{ steps.get_version.outputs.version }}"
-          name: "Release v${{ steps.get_version.outputs.version }}"
-          files: |
-            dist/*.exe
-            dist/*.nsis.exe
-            dist/*.portable.exe
+          tag_name: ${{ env.version }}
+          release_name: "Release ${{ env.version }}"
+          draft: false
+          prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
-      - name: ✅ Success! Release created.
-        run: echo "🚀 Release v${{ steps.get_version.outputs.version }} built and published successfully!"
+  build_windows:
+    needs: create_release
+    runs-on: windows-latest
+
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🔧 Setup Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: 🛠️ Install dependencies
+        run: npm ci
+
+      - name: 🏗️ Build Windows app
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build
+
+      - name: 📦 Upload Windows build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: service-ems-windows-${{ env.version }}
+          path: dist/

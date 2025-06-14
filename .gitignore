@@ -1,0 +1,45 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Compiled Electron files
+*.log
+*.tsbuildinfo
+
+# Configuration files
+config.json
+*.local.json
+
+# System files
+.DS_Store
+Thumbs.db
+
+# OS/Editor junk
+*.swp
+*.swo
+*.bak
+*.tmp
+.vscode/
+.idea/
+
+# Electron auto update files (if you store them temporarily)
+latest.yml
+*.blockmap
+
+# GitHub workflow artifacts
+*.7z
+*.exe
+*.zip
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Release folders (if used)
+release/
+out/

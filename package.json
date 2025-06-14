@@ -1,0 +1,55 @@
+{
+  "name": "service-ems",
+  "version": "1.0.0",
+  "description": "Service EMS - Prise de service Discord",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win"
+  },
+  "author": "NeXoS_20",
+  "build": {
+    "appId": "com.nexos.serviceems",
+    "productName": "Service EMS",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!config.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Service EMS"
+    }
+  },
+  "devDependencies": {
+    "electron": "^25.3.1",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "moment-timezone": "^0.5.43",
+    "node-fetch": "^2.7.0",
+    "open": "^10.1.2"
+  },
+
+  "publish": [
+  {
+    "provider": "github",
+    "owner": "azuryonoff",
+    "repo": "Service-EMS"
+  }
+]
+}

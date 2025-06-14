@@ -1,0 +1,149 @@
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #titlebar {
+      height: 30px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      -webkit-app-region: drag;
+    }
+
+    #settings-bar button,
+    #settings-btn, #grade-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+      padding-left: 1px;
+      padding-right: 5px;
+    }
+
+    #grade-btn {
+        margin-right: 250px;
+    }
+
+    #app {
+      height: calc(100vh - 30px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #2e2e4d;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #3a3a5e;
+    }
+
+    #status {
+      display: none;
+      margin-top: 0.5rem;
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* Modal */
+    #settings-modal, #grade-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #settings-content, #grade-content {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 400px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, select {
+      padding: 10px;
+      background: #2a2a3d;
+      border: 1px solid #444;
+      color: white;
+      border-radius: 6px;
+    }
+
+    #save, #close-settings {
+      background: #1f1f38;
+      padding: 10px;
+    }
+
+    /* Toast popup */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 10px 20px 10px 15px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 2000;
+      font-size: 0.9rem;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 200px;
+      max-width: 80vw;
+      box-sizing: border-box;
+    }
+
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #toast-close {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 0 5px;
+      color: #ccc;
+      user-select: none;
+      transition: color 0.2s;
+    }
+
+    #toast-close:hover {
+      color: white;
+    }

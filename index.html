@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prise de Service</title>
+  <script defer src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="titlebar">
+    <button id="settings-btn" title="Paramètres">⚙️</button>
+    <button id="grade-btn" title="Demande De Grade">👤</button>
+    <div id="settings-bar">
+      <button id="min-btn" title="Réduire">—</button>
+      <button id="close-btn" title="Fermer">✖</button>
+    </div>
+  </div>
+
+  <div id="app">
+    <h1>🕒 Service EMS</h1>
+    <button id="send">✅ Prendre son service</button>
+    <button id="pause">⏸️ Pause</button>
+    <button id="reprise">▶️ Reprise</button>
+    <button id="fin">🛑 Fin de service</button>
+  </div>
+
+  <div id="settings-modal">
+    <div id="settings-content">
+      <h2>⚙️ Paramètres Discord</h2>
+      <input id="token" placeholder="Token Discord" />
+      <input id="nom" placeholder="Nom & Prénom" />
+      <select id="grade">
+        <option value="911981410359840805">1 - aide soignant (AS)</option>
+        <option value="911981410397585452">2 - aide soignant diplomé</option>
+        <option value="1100861809617010780">3 - Infirmier en Formation</option>
+        <option value="911981410359840806">4 - Infirmier</option>
+        <option value="911981410397585457">5 - Médecin En Formation</option>
+        <option value="911981410414383159">6 - Médecin</option>
+        <option value="911981410380832818">7 - Agent SA</option>
+        <option value="911981410414383162">8 - Chef d'équipe infirmier</option>
+        <option value="911981410414383155">9 - Chef de secteur</option>
+        <option value="911981410397585456">10 - Docteur en formation</option>
+        <option value="911981410414383160">11 - Docteur</option>
+        <option value="911981410397585451">12 - Docteur Associé</option>
+        <option value="911981410414383163">13 - Chef des Docteurs</option>
+        <option value="911981410414383156">14 - Apprentie Chirurgien</option>
+        <option value="911981410397585458">15 - Médecin Du Travail</option>
+        <option value="911981410414383161">16 - Médecin Généraliste</option>
+        <option value="1114937231099043850">17 - Médecin nord</option>
+        <option value="1114936877594722344">18 - Infirmier Nord</option>
+        <option value="1114936271274512435">19 - Chef d equipe Nord</option>
+        <option value="1100859320889004112">20 - Chirurgien</option>
+        <option value="911981410414383154">21 - Psychologue</option>
+        <option value="911981410431152178">22 - Psychologue en Chef</option>
+        <option value="911981410414383157">23 - Chef d’équipe Aérienne</option>
+        <option value="911981410431152180">24 - Adjoint de Division médicale</option>
+        <option value="911981410431152182">25 - Chef de Division médicale</option>
+        <option value="911981410431152183">26 - Formateur Médicale</option>
+        <option value="1080599679726792805">27 - Responsable RH</option>
+        <option value="911981410431152181">28 - Responsable En Chef</option>
+        <option value="911981410431152185">29 - Directeur Adjoint des EMS</option>
+        <option value="911981410628288602">30 - Directeur des EMS</option>
+      </select>
+      <button id="save">💾 Enregistrer</button>
+      <button id="close-settings">❌ Fermer</button>
+    </div>
+  </div>
+
+    <div id="grade-modal">
+    <div id="grade-content">
+      <h2>👤 Demande de grade</h2>
+      <select id="grade-select">
+        <option value="911981410359840805">1 - aide soignant (AS)</option>
+        <option value="911981410397585452">2 - aide soignant diplomé</option>
+        <option value="1100861809617010780">3 - Infirmier en Formation</option>
+        <option value="911981410359840806">4 - Infirmier</option>
+        <option value="911981410397585457">5 - Médecin En Formation</option>
+        <option value="911981410414383159">6 - Médecin</option>
+        <option value="911981410380832818">7 - Agent SA</option>
+        <option value="911981410414383162">8 - Chef d'équipe infirmier</option>
+        <option value="911981410414383155">9 - Chef de secteur</option>
+        <option value="911981410397585456">10 - Docteur en formation</option>
+        <option value="911981410414383160">11 - Docteur</option>
+        <option value="911981410397585451">12 - Docteur Associé</option>
+        <option value="911981410414383163">13 - Chef des Docteurs</option>
+        <option value="911981410414383156">14 - Apprentie Chirurgien</option>
+        <option value="911981410397585458">15 - Médecin Du Travail</option>
+        <option value="911981410414383161">16 - Médecin Généraliste</option>
+        <option value="1114937231099043850">17 - Médecin nord</option>
+        <option value="1114936877594722344">18 - Infirmier Nord</option>
+        <option value="1114936271274512435">19 - Chef d equipe Nord</option>
+        <option value="1100859320889004112">20 - Chirurgien</option>
+        <option value="911981410414383154">21 - Psychologue</option>
+        <option value="911981410431152178">22 - Psychologue en Chef</option>
+        <option value="911981410414383157">23 - Chef d’équipe Aérienne</option>
+        <option value="911981410431152180">24 - Adjoint de Division médicale</option>
+        <option value="911981410431152182">25 - Chef de Division médicale</option>
+        <option value="911981410431152183">26 - Formateur Médicale</option>
+        <option value="1080599679726792805">27 - Responsable RH</option>
+        <option value="911981410431152181">28 - Responsable En Chef</option>
+        <option value="911981410431152185">29 - Directeur Adjoint des EMS</option>
+        <option value="911981410628288602">30 - Directeur des EMS</option>
+      </select>
+      <button id="demander">✈️ Demander</button>
+      <button id="close-grade">❌ Fermer</button>
+    </div>
+  </div>
+
+  <div id="toast">
+    <span id="toast-message"></span>
+    <span id="toast-close" title="Fermer">×</span>
+  </div>
+</body>
+</html>

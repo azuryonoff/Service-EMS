@@ -27,7 +27,7 @@ jobs:
         with:
           tag_name: ${{ env.version }}
           release_name: "Release ${{ env.version }}"
-          draft: false
+          draft: true
           prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
   build-windows:

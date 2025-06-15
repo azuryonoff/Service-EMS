@@ -106,3 +106,9 @@ async function loadConfig() {
     const versionSpan = document.getElementById('app-version');
     if (versionSpan) versionSpan.textContent = version;
 }
+ipcRenderer.on('update-toast', (event, message) => {
+  showToast(message, 4000);
+});
+ipcRenderer.on('update-toast', (event, message) => {
+  showToast(message, 4000);
+});

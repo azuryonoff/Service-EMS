@@ -9,6 +9,9 @@ const configPath = path.join(app.getPath('userData'), 'config.json');
 const defaultConfig = { token: "", nom: "", grade: "" };
 const ChannelId = '1068531881500491796'; // Ton salon Discord
 
+autoUpdater.allowPrerelease = true;
+autoUpdater.forceDevUpdateConfig = true;
+
 // Crée le fichier config si absent
 if (!fs.existsSync(configPath)) {
   fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2));
@@ -181,9 +184,12 @@ ipcMain.handle('send-grade', async (event, grade) => {
     return "❌ Erreur interne.";
   }
 });
+
 autoUpdater.on('update-available', () => {
   console.log('🔄 Mise à jour disponible...');
-  showToast("🔄 Mise à jour disponible, téléchargement...");
+  if (mainWindow) {
+    mainWindow.webContents.send('update-toast', '🔄 Mise à jour disponible, téléchargement en cours...');
+  }
 });
 
 autoUpdater.on('update-downloaded', () => {
@@ -193,7 +199,7 @@ autoUpdater.on('update-downloaded', () => {
   }
   setTimeout(() => {
     autoUpdater.quitAndInstall();
-  }, 2500); // Petite pause pour laisser le toast s'afficher
+  }, 2500);
 });
 
 ipcMain.handle('get-version', () => app.getVersion());

@@ -94,3 +94,15 @@ document.getElementById('demander').onclick = async () => {
   showToast(result);
   document.getElementById('grade-modal').style.display = 'none';
 };
+
+async function loadConfig() {
+    const config = await ipcRenderer.invoke('read-config');
+    tokenInput.value = config.token || '';
+    nomInput.value = config.nom || '';
+    gradeInput.value = config.grade || '';
+
+    // Récupère et affiche la version
+    const version = await ipcRenderer.invoke('get-version');
+    const versionSpan = document.getElementById('app-version');
+    if (versionSpan) versionSpan.textContent = version;
+}

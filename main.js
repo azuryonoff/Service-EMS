@@ -183,8 +183,17 @@ ipcMain.handle('send-grade', async (event, grade) => {
 });
 autoUpdater.on('update-available', () => {
   console.log('🔄 Mise à jour disponible...');
+  showToast("🔄 Mise à jour disponible, téléchargement...");
 });
 
 autoUpdater.on('update-downloaded', () => {
-  console.log('✅ Mise à jour téléchargée, elle sera installée au prochain lancement.');
+  console.log('✅ Mise à jour téléchargée. Redémarrage pour installation...');
+  if (mainWindow) {
+    mainWindow.webContents.send('update-toast', '✅ Mise à jour téléchargée ! Redémarrage...');
+  }
+  setTimeout(() => {
+    autoUpdater.quitAndInstall();
+  }, 2500); // Petite pause pour laisser le toast s'afficher
 });
+
+ipcMain.handle('get-version', () => app.getVersion());

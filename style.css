@@ -147,3 +147,17 @@
     #toast-close:hover {
       color: white;
     }
+
+    #app-version {
+  font-size: 0.875rem; /* 14px */
+  color: #666666;      /* gris moyen */
+  float: right;
+  margin-top: 0.5rem;
+}
+
+.version-label {
+  font-size: 0.875rem;
+  color: #444444;
+  margin-top: 0.5rem;
+  user-select: none;
+}

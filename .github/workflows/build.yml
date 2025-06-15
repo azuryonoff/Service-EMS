@@ -27,7 +27,7 @@ jobs:
         with:
           tag_name: ${{ env.version }}
           release_name: "Release ${{ env.version }}"
-          draft: true
+          draft: false
           prerelease: ${{ contains(env.version, 'beta') || contains(env.version, 'alpha') }}
 
   build-windows:
@@ -56,10 +56,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run build
         shell: bash
-
-      - name: 📤 Uploader les artefacts de build
-        uses: actions/upload-artifact@v4
-        with:
-          name: service-ems-windows-${{ env.version }}
-          path: dist/
-

@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 const { autoUpdater } = require('electron-updater');
 
 const configPath = path.join(app.getPath('userData'), 'config.json');
-const defaultConfig = { token: "", nom: "", grade: "" };
+const defaultConfig = { token: "", nom: "", grade: "", musicEnabled: false };
 const ChannelId = '1068531881500491796'; // Ton salon Discord
 
 autoUpdater.allowPrerelease = true;
@@ -51,17 +51,19 @@ ipcMain.handle('read-config', async () => {
   try {
     const data = fs.readFileSync(configPath, 'utf-8');
     return JSON.parse(data);
-  } catch {
-    return {};
+  } catch (e) {
+    console.error('Error reading config file:', e);
+    return defaultConfig;
   }
 });
 
 ipcMain.handle('save-config', async (event, newConfig) => {
   try {
     fs.writeFileSync(configPath, JSON.stringify(newConfig, null, 2));
+    console.log('Configuration saved:', newConfig);
     return { success: true };
   } catch (e) {
-    console.error(e);
+    console.error('Error saving config file:', e);
     return { success: false, error: e.message };
   }
 });
@@ -153,6 +155,7 @@ ipcMain.handle('modifier-message', async (event, action) => {
     return "❌ Erreur interne.";
   }
 });
+
 // ----- Envoi du message de grade -----
 ipcMain.handle('send-grade', async (event, grade) => {
   try {

@@ -20,6 +20,9 @@
   </div>
 </div>
 
+<audio id="background-music" loop>
+  <source src="background-music.mp3" type="audio/mpeg">
+</audio>
 
   <div id="app">
     <h1>🕒 Service EMS</h1>
@@ -66,13 +69,14 @@
         <option value="911981410431152185">29 - Directeur Adjoint des EMS</option>
         <option value="911981410628288602">30 - Directeur des EMS</option>
       </select>
+      <button id="toggle-music">🎵 Activer/Désactiver la musique</button>
       <button id="save">💾 Enregistrer</button>
       <button id="close-settings">❌ Fermer</button>
       <p id="app-version">...</p>
     </div>
   </div>
 
-    <div id="grade-modal">
+  <div id="grade-modal">
     <div id="grade-content">
       <h2>👤 Demande de grade</h2>
       <select id="grade-select">
@@ -125,7 +129,6 @@
 
   </div>
 </div>
-
 
   <div id="toast">
     <span id="toast-message"></span>

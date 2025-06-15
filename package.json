@@ -1,11 +1,12 @@
 {
   "name": "service-ems",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Service EMS - Prise de service Discord",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --win"
+    "build": "electron-builder --win",
+    "dev": "nodemon"
   },
   "author": "NeXoS_20",
   "build": {
@@ -35,7 +36,8 @@
   },
   "devDependencies": {
     "electron": "^25.3.1",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.0.12",
+    "nodemon": "^3.1.10"
   },
   "dependencies": {
     "electron-updater": "^6.6.2",

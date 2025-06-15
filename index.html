@@ -8,14 +8,18 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="titlebar">
+<div id="titlebar">
+  <div class="titlebar-left">
     <button id="settings-btn" title="Paramètres">⚙️</button>
     <button id="grade-btn" title="Demande De Grade">👤</button>
-    <div id="settings-bar">
-      <button id="min-btn" title="Réduire">—</button>
-      <button id="close-btn" title="Fermer">✖</button>
-    </div>
+    <button id="medoc-btn" title="Stock de médicaments">💊</button>
   </div>
+  <div id="settings-bar">
+    <button id="min-btn" title="Réduire">—</button>
+    <button id="close-btn" title="Fermer">✖</button>
+  </div>
+</div>
+
 
   <div id="app">
     <h1>🕒 Service EMS</h1>
@@ -107,6 +111,21 @@
       <button id="close-grade">❌ Fermer</button>
     </div>
   </div>
+
+<div id="medoc-modal">
+  <div id="medoc-content">
+    <h2>💊 Stock de médicaments</h2>
+
+    <input id="debut-medoc" type="number" placeholder="Stock de médicaments au début" />
+    <input id="fin-medoc" type="number" placeholder="Stock de médicaments à la fin" />
+    <input id="livraison-medoc" type="number" placeholder="Nombre de livraison(s)" />
+
+    <button id="envoyer-medoc">📋 Envoyer message</button>
+    <button id="close-medoc">❌ Fermer</button>
+
+  </div>
+</div>
+
 
   <div id="toast">
     <span id="toast-message"></span>

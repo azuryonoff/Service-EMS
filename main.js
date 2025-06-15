@@ -203,3 +203,36 @@ autoUpdater.on('update-downloaded', () => {
 });
 
 ipcMain.handle('get-version', () => app.getVersion());
+
+ipcMain.handle('send-medoc', async (event, data) => {
+  try {
+    const { debut, fin, livraison } = data;
+    const config = JSON.parse(fs.readFileSync(configPath));
+
+    if (!config.token || !config.nom) return "❌ Configuration incomplète.";
+
+    const message = `💊 Stock de médicaments au début : ${debut}
+💊 Stock de médicaments à la fin : ${fin}
+🚚 Livraison x${livraison}`;
+
+    const response = await fetch(`https://discord.com/api/v9/channels/1101141434066817184/messages`, {
+      method: 'POST',
+      headers: {
+        'Authorization': config.token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content: message }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("Erreur Discord:", error);
+      return "❌ Échec de l'envoi.";
+    }
+
+    return "✅ Message envoyé.";
+  } catch (e) {
+    console.error(e);
+    return "❌ Erreur interne.";
+  }
+});

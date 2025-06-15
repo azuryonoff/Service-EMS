@@ -3,6 +3,7 @@ const { ipcRenderer } = require('electron');
 const status = document.getElementById('status');
 const settingsModal = document.getElementById('settings-modal');
 const gradeModal = document.getElementById('grade-modal');
+const medocModal = document.getElementById('medoc-modal');
 const nomInput = document.getElementById('nom');
 const gradeInput = document.getElementById('grade');
 const gradeSelect = document.getElementById('grade-select'); // modal grade
@@ -112,3 +113,31 @@ ipcRenderer.on('update-toast', (event, message) => {
 ipcRenderer.on('update-toast', (event, message) => {
   showToast(message, 4000);
 });
+
+document.getElementById('medoc-btn').onclick = () => {
+    medocModal.style.display = 'flex';
+};
+
+document.getElementById('close-medoc').onclick = () => {
+    medocModal.style.display = 'none';
+};
+
+document.getElementById('envoyer-medoc').onclick = async () => {
+  const debut = document.getElementById('debut-medoc').value;
+  const fin = document.getElementById('fin-medoc').value;
+  const livraison = document.getElementById('livraison-medoc').value;
+
+  if (!debut || !fin || !livraison) {
+    showToast("⚠️ Remplis tous les champs.");
+    return;
+  }
+
+  const resultmedoc = await ipcRenderer.invoke('send-medoc', {
+    debut,
+    fin,
+    livraison
+  });
+
+  showToast(resultmedoc);
+  document.getElementById('medoc-modal').style.display = 'none';
+};

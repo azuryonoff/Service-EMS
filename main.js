@@ -2,7 +2,6 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const moment = require('moment-timezone');
-const fetch = require('node-fetch');
 const { autoUpdater } = require('electron-updater');
 
 const configPath = path.join(app.getPath('userData'), 'config.json');
